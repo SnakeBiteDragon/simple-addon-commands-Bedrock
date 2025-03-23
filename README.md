@@ -51,11 +51,11 @@ ChatCommands.setuniversalvariable('anyvariable', 'anyvalue');
 <br>
 Other
 <br>
-The .js file will automaticly make a help menu when you use ```commandsetup```. Tosee the help menu use PREFIXhelp e.g
+The .js file will automaticly make a help menu when you use ```commandsetup```. To see the help menu use PREFIXhelp e.g
 
 ```md
 ChatCommands.commandsetup('mc:', '1.0.0', 'SnakeBDragon');
 /*using mc:help will show the player the help menu in chat*/
 ```
 
-```world.getDynamicProperty('chatcommands:prefixs');``` will get you a {} with all addons that use the simple addon comands with the prefix, modversion and modauthor inside. this can be used to see what other mods are on the world using simple addon commands allowing you at add fetures that interact with other addons if they are on the world.
+```world.getDynamicProperty('chatcommands:prefixs');``` will get you a {} with all addons that use the simple addon comands with the prefix, modversion and modauthor inside. This can be used to see what other mods are on the world using simple addon commands allowing you at add fetures that interact with other addons if they are on the world.
