@@ -34,7 +34,7 @@ beforeEvents.chatSend.subscribe((data) => {
     if(message.startsWith(Uprefix + 'help')) {
         data.cancel = true;
         player.sendMessage('------------------------------------------------' + Uprefix + 'help------------------------------------------------');
-        player.sendMessage('Addon made by §2' + Umodauthor + ' §7| Version §6' + Umodversion + ' §7| Easy chat commands made by SakeBDragon');
+        player.sendMessage('Addon made by §2' + Umodauthor + ' §7| Version §6' + Umodversion + ' §7| Simple addon commands made by SnakeBDragon');
         for (let i = 0; i < normalchatcommands.length; i++) {
             player.sendMessage('§6' + Uprefix + normalchatcommands[i].command + ' §7- ' + normalchatcommands[i].description);
         }
@@ -202,7 +202,7 @@ function commandsetup(prefix, modversion='1.0.0', modauthor='Unknown') {
     }
 }
 
-function addcommand(commandname, commanddescription, musthaveOP= false, callback) {
+function addcommand(commandname, commanddescription, musthaveOP = false, callback) {
     if (commandname == undefined || commandname == '' || commandname == ' ') {
         console.warn(CCERROR.MISSING_VARIABLE + 'commandname');
         return;
@@ -213,16 +213,25 @@ function addcommand(commandname, commanddescription, musthaveOP= false, callback
         return;
     }
 
+    if (musthaveOP) {
+        OPchatcommands.push({
+            command: commandname,
+            description: commanddescription
+        });
+    }
+    else {
+        normalchatcommands.push({
+            command: commandname,
+            description: commanddescription
+        });
+    }
+
     beforeEvents.chatSend.subscribe((data) => {
         const message = data.message;
         if (message.startsWith(Uprefix + commandname)) {
             if (musthaveOP) {
                 if (data.sender.isOp()) {
                     data.cancel = true;
-                    OPchatcommands.push({
-                        command: commandname,
-                        description: commanddescription
-                    });
                     callback(data.sender, message);
                 }
                 else {
@@ -232,10 +241,6 @@ function addcommand(commandname, commanddescription, musthaveOP= false, callback
             }
             else {
                 data.cancel = true;
-                normalchatcommands.push({
-                    command: commandname,
-                    description: commanddescription
-                });
                 callback(data.sender, message);
             }
         }
