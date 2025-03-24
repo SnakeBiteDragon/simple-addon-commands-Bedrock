@@ -131,7 +131,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
         }
     }
 
-    if (inputtype == 'inputt') {
+    if (inputtype == 'input') {
         let messagesplit = message.split(' ');
         return {'value': messagesplit[messagewordnum]};
     }
