@@ -35,8 +35,9 @@ console.warn(getinputtypes())
 ```md
 ChatCommands.addcommand('sayhi', 'Says hi to the player', false, (player, message) => {
     let inputdata1 = ChatCommands.addinput(player, message, 1, 'playername');
-    console.warn(inputdata1.value); /* prints the username entered */
+    console.warn(inputdata1.value); /* warns the username entered */
     console.warn(inputdata1.num); /* this is only for the playername input type this returns 1 less then the length of the username for spaces so "S B D" would be 2 this can be taken away from the next input so it dosent grab the B but the text after the username */
+    console.warn(inputdata1.playerentity) /* warns the object of the player or ERROR if there is no player in the world with that username */
     let inputdata2 = ChatCommands.addinput(player, message, 2 - inputdata1.num, 'numinput');
 });
 ```
