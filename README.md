@@ -11,7 +11,7 @@ A simple .js file to make it easier to create custom commands for Minecraft bedr
 
 ### How to import
 1. Copy the [simple addon commands file](simple-addon-commands.js) into the scripts folder in your Minecraft Bedrock addon.
-2. In your main JavaScript file use ```import { ChatCommands } from "./chatcommands.js";``` to import ChatCommands to your main.js file.
+2. In your main JavaScript file use ```import { ChatCommands } from "./simple-addon-commands.js";``` to import ChatCommands to your main.js file.
 3. Use ```ChatCommands./*The funtion you want here*/``` to run the funtion you want from the Simple addon commands.
 
 ### Functions
@@ -48,9 +48,9 @@ ChatCommands.getuniversalvariable('anyvariable');
 ```md
 ChatCommands.setuniversalvariable('anyvariable', 'anyvalue');
 ```
-<br>
-Other
-<br>
+
+### Other
+
 The .js file will automaticly make a help menu when you use ```commandsetup```. To see the help menu use PREFIXhelp e.g
 
 ```md
