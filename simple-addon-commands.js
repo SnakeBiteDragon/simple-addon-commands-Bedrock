@@ -38,9 +38,11 @@ beforeEvents.chatSend.subscribe((data) => {
         for (let i = 0; i < normalchatcommands.length; i++) {
             player.sendMessage('§6' + Uprefix + normalchatcommands[i].command + ' §7- ' + normalchatcommands[i].description);
         }
-        player.sendMessage('------------------------------------------------' + Uprefix + 'OP--------------------------------------------------');;
-        for (let i = 0; i < OPchatcommands.length; i++) {
-            player.sendMessage('§6' + Uprefix + OPchatcommands[i].command + ' §7- ' + OPchatcommands[i].description);
+        if (player.isOp()) {
+            player.sendMessage('------------------------------------------------' + Uprefix + 'OP--------------------------------------------------');;
+            for (let i = 0; i < OPchatcommands.length; i++) {
+                player.sendMessage('§6' + Uprefix + OPchatcommands[i].command + ' §7- ' + OPchatcommands[i].description);
+            }
         }
     } 
 })
@@ -80,12 +82,26 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
                         usernamelist.push(messagesplit[messagewordnum + j].replace('"', ''));
                     }
                     usernamelist = usernamelist.join(' ');
-                    return {'value': usernamelist, 'num': i};
+                    let playerentity = 'ERROR'
+                    for (let j = 0; j < world.getPlayers().length; j++) {
+                        if (world.getPlayers()[j].name == usernamelist) {
+                            playerentity = world.getPlayers()[j];
+                            break;
+                        }
+                    }
+                    return {'value': usernamelist, 'num': i, 'playerentity': playerentity};
                 }
             }
         }
         else {
-            return {'value': messagesplit[messagewordnum], 'num': 0};
+            let playerentity = 'ERROR'
+            for (let j = 0; j < world.getPlayers().length; j++) {
+                if (world.getPlayers()[j].name == messagesplit[messagewordnum]) {
+                    playerentity = world.getPlayers()[j];
+                    break;
+                }
+            }
+            return {'value': messagesplit[messagewordnum], 'num': 0, 'playerentity': playerentity};
         }
     }
 
