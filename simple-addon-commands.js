@@ -48,7 +48,7 @@ beforeEvents.chatSend.subscribe((data) => {
 })
    
 function getinputtypes(playername='playername - can put a player name here "" is supported', numinput='numinput - any number', booleninput='booleninput - any bolen/true/false', input='input - anything dose not support fingerspaces') {	
-    return [playername, numinput, booleninput, input]
+    return [playername, numinput, booleninput, input];
 }
 
 function addinput(player, message, messagewordnum=1, inputtype='input') {
@@ -82,7 +82,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
                         usernamelist.push(messagesplit[messagewordnum + j].replace('"', ''));
                     }
                     usernamelist = usernamelist.join(' ');
-                    let playerentity = 'ERROR'
+                    let playerentity = 'ERROR';
                     for (let j = 0; j < world.getPlayers().length; j++) {
                         if (world.getPlayers()[j].name == usernamelist) {
                             playerentity = world.getPlayers()[j];
@@ -94,7 +94,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
             }
         }
         else {
-            let playerentity = 'ERROR'
+            let playerentity = 'ERROR';
             for (let j = 0; j < world.getPlayers().length; j++) {
                 if (world.getPlayers()[j].name == messagesplit[messagewordnum]) {
                     playerentity = world.getPlayers()[j];
