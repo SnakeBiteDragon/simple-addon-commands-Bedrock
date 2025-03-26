@@ -48,7 +48,7 @@ beforeEvents.chatSend.subscribe((data) => {
 })
    
 function getinputtypes(playername='playername - can put a player name here "" is supported', numinput='numinput - any number', booleninput='booleninput - any bolen/true/false', input='input - anything dose not support fingerspaces') {	
-    return [playername, numinput, booleninput, input];
+    return [playername, numinput, booleninput, input]
 }
 
 function addinput(player, message, messagewordnum=1, inputtype='input') {
@@ -82,7 +82,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
                         usernamelist.push(messagesplit[messagewordnum + j].replace('"', ''));
                     }
                     usernamelist = usernamelist.join(' ');
-                    let playerentity = 'ERROR';
+                    let playerentity = 'ERROR'
                     for (let j = 0; j < world.getPlayers().length; j++) {
                         if (world.getPlayers()[j].name == usernamelist) {
                             playerentity = world.getPlayers()[j];
@@ -94,7 +94,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
             }
         }
         else {
-            let playerentity = 'ERROR';
+            let playerentity = 'ERROR'
             for (let j = 0; j < world.getPlayers().length; j++) {
                 if (world.getPlayers()[j].name == messagesplit[messagewordnum]) {
                     playerentity = world.getPlayers()[j];
@@ -174,93 +174,97 @@ function setuniversalvariable(variable, value) {
 }
 
 function commandsetup(prefix, modversion='1.0.0', modauthor='Unknown') {
-    if(prefix.startsWith('/')) {
-        console.warn(CCERROR.PREFIX_SLASH);
-        return CCERROR.PREFIX_SLASH;
-    }
-    else if (prefix == '' || prefix ==' ' || prefix == undefined) {
-        console.warn(CCERROR.PREFIX_EMPTY);
-        return CCERROR.PREFIX_EMPTY;
-    }
-    else {
-        Uprefix = prefix;
-        Umodversion = modversion;
-        Umodauthor = modauthor;
-        let otherprefixs = world.getDynamicProperty('chatcommands:prefixs');
-        if (otherprefixs == undefined) {
-            otherprefixs = [];
-            otherprefixs.push({
-                prefix: prefix,
-                modversion: modversion,
-                modauthor: modauthor
-            })
+    system.runTimeout(() => {
+        if(prefix.startsWith('/')) {
+            console.warn(CCERROR.PREFIX_SLASH);
+            return CCERROR.PREFIX_SLASH;
+        }
+        else if (prefix == '' || prefix ==' ' || prefix == undefined) {
+            console.warn(CCERROR.PREFIX_EMPTY);
+            return CCERROR.PREFIX_EMPTY;
         }
         else {
-            otherprefixs = JSON.parse(otherprefixs);
-            let R = 0;
-            for (let i = 0; i < otherprefixs.length; i++) {
-                if (otherprefixs[i].prefix == prefix) {
-                    R = 1
-                    break;
-                }
-            }
-            if (R == 0) {
+            Uprefix = prefix;
+            Umodversion = modversion;
+            Umodauthor = modauthor;
+            let otherprefixs = world.getDynamicProperty('chatcommands:prefixs');
+            if (otherprefixs == undefined) {
+                otherprefixs = [];
                 otherprefixs.push({
                     prefix: prefix,
                     modversion: modversion,
                     modauthor: modauthor
-                });
+                })
             }
+            else {
+                otherprefixs = JSON.parse(otherprefixs);
+                let R = 0;
+                for (let i = 0; i < otherprefixs.length; i++) {
+                    if (otherprefixs[i].prefix == prefix) {
+                        R = 1
+                        break;
+                    }
+                }
+                if (R == 0) {
+                    otherprefixs.push({
+                        prefix: prefix,
+                        modversion: modversion,
+                        modauthor: modauthor
+                    });
+                }
+            }
+            otherprefixs = JSON.stringify(otherprefixs);
+            world.setDynamicProperty('chatcommands:prefixs', otherprefixs);
+            return true;
         }
-        otherprefixs = JSON.stringify(otherprefixs);
-        world.setDynamicProperty('chatcommands:prefixs', otherprefixs);
-        return true;
-    }
+    }, 1)
 }
 
 function addcommand(commandname, commanddescription, musthaveOP = false, callback) {
-    if (commandname == undefined || commandname == '' || commandname == ' ') {
-        console.warn(CCERROR.MISSING_VARIABLE + 'commandname');
-        return;
-    }
+    system.runTimeout(() => {
+        if (commandname == undefined || commandname == '' || commandname == ' ') {
+            console.warn(CCERROR.MISSING_VARIABLE + 'commandname');
+            return;
+        }
 
-    if (commanddescription == undefined || commanddescription == '' || commanddescription == ' ') {
-        console.warn(CCERROR.MISSING_VARIABLE + 'commanddescription');
-        return;
-    }
+        if (commanddescription == undefined || commanddescription == '' || commanddescription == ' ') {
+            console.warn(CCERROR.MISSING_VARIABLE + 'commanddescription');
+            return;
+        }
 
-    if (musthaveOP) {
-        OPchatcommands.push({
-            command: commandname,
-            description: commanddescription
-        });
-    }
-    else {
-        normalchatcommands.push({
-            command: commandname,
-            description: commanddescription
-        });
-    }
+        if (musthaveOP) {
+            OPchatcommands.push({
+                command: commandname,
+                description: commanddescription
+            });
+        }
+        else {
+            normalchatcommands.push({
+                command: commandname,
+                description: commanddescription
+            });
+        }
 
-    beforeEvents.chatSend.subscribe((data) => {
-        const message = data.message;
-        if (message.startsWith(Uprefix + commandname)) {
-            if (musthaveOP) {
-                if (data.sender.isOp()) {
-                    data.cancel = true;
-                    callback(data.sender, message);
+        beforeEvents.chatSend.subscribe((data) => {
+            const message = data.message;
+            if (message.startsWith(Uprefix + commandname)) {
+                if (musthaveOP) {
+                    if (data.sender.isOp()) {
+                        data.cancel = true;
+                        callback(data.sender, message);
+                    }
+                    else {
+                        data.cancel = true;
+                        data.sender.sendMessage('§cYou need to be OP to use this command');
+                    }
                 }
                 else {
                     data.cancel = true;
-                    data.sender.sendMessage('§cYou need to be OP to use this command');
+                    callback(data.sender, message);
                 }
             }
-            else {
-                data.cancel = true;
-                callback(data.sender, message);
-            }
-        }
-    });
+        });
+    }, 1);
 }
 
 export { ChatCommands /* Made by SnakeBDragon */ };
