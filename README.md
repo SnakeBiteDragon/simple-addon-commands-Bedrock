@@ -1,6 +1,11 @@
 # simple-addon-commands-Bedrock
 A simple .js file to make it easier to create custom commands for Minecraft bedrock addons
 
+# **THIS WILL NOT WORK CURRENTLY**
+**This must be run on 2.0.0-beta as it needs the world.beforeEvents.sendchat funtion but as somethings have been editied in 2.0.0-beta from 1.18.0-beta this will not work**
+**currently i hope to get the fix done by monday 31/03/2025 AEST**
+
+
 ## PLEASE NOTE: 
 - This file will have to be copyed into the scripts folder in your Minecraft Bedrock addon to work.
 - There is currently NO npm for this project. 
