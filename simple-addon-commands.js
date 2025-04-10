@@ -110,7 +110,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
             return {'value': messagesplit[messagewordnum]};
         }
         else {
-            return {'value': NaN};
+            return {'value': 'NaN'};
         }
     }
 
