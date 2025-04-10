@@ -246,7 +246,7 @@ function addcommand(commandname, commanddescription, musthaveOP = false, callbac
 
         beforeEvents.chatSend.subscribe((data) => {
             const message = data.message;
-            if (message.startsWith(Uprefix + commandname)) {
+            if (message.startsWith(Uprefix + commandname + ' ') || message == Uprefix + commandname) {
                 if (musthaveOP) {
                     if (data.sender.isOp()) {
                         data.cancel = true;
