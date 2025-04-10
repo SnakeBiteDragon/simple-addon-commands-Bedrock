@@ -251,7 +251,7 @@ function addcommand(commandname, commanddescription, musthaveOP = false, callbac
                 if (musthaveOP) {
                     if (data.sender.isOp()) {
                         data.cancel = true;
-                        callback(data.sender, message);
+                        system.run(() => {callback(data.sender, message)});
                     }
                     else {
                         data.cancel = true;
@@ -260,7 +260,7 @@ function addcommand(commandname, commanddescription, musthaveOP = false, callbac
                 }
                 else {
                     data.cancel = true;
-                    callback(data.sender, message);
+                    system.run(() => {callback(data.sender, message)});
                 }
             }
         });
