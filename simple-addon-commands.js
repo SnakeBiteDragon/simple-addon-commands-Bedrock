@@ -79,7 +79,7 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
                 if (messagesplit[messagewordnum + i].split('')[messagesplit[messagewordnum + i].split('').length - 1] == '"') {
                     let usernamelist = []; 
                     for (let j = 0; j < i + 1; j++) {
-                        usernamelist.push(messagesplit[messagewordnum + j].replace('"', ''));
+                        usernamelist.push(messagesplit[messagewordnum + j].replace(/"/g, ''));
                     }
                     usernamelist = usernamelist.join(' ');
                     let playerentity = 'ERROR'
@@ -104,7 +104,6 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
             return {'value': messagesplit[messagewordnum], 'num': 0, 'playerentity': playerentity};
         }
     }
-
     if (inputtype == 'numinput') {
         let messagesplit = message.split(' ');
         if (messagesplit[messagewordnum] == Number(messagesplit[messagewordnum])) {
