@@ -41,14 +41,6 @@ ChatCommands.addcommand('sayhi', 'Says hi to the player', false, (player, messag
     let inputdata2 = ChatCommands.addinput(player, message, 2 - inputdata1.num, 'numinput');
 });
 ```
-- ```getuniversalvariable``` Get universal variable will get a universal variable that has been set before, it takes one varible, varible. VARIBLE is the varible that you wish to access.
-```md
-ChatCommands.getuniversalvariable('anyvariable');
-```
-- ```setuniversalvariable``` Set universal variable can be used to create or change a universal varible, it takes two varibles, varible, value. VARIBLE is the varible that you wish to create or edit. VALUE is the value you wish to assign to that varible.
-```md
-ChatCommands.setuniversalvariable('anyvariable', 'anyvalue');
-```
 
 ### Other
 
