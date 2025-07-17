@@ -6,8 +6,6 @@ const ChatCommands = (function() {
       addcommand,
       getinputtypes,
       addinput,
-      getuniversalvariable,
-      setuniversalvariable,
     };
 })();
 
@@ -26,7 +24,6 @@ const CCERROR = {
 };
 let normalchatcommands = []
 let OPchatcommands = []
-let universalSBDvariable = []
 
 beforeEvents.chatSend.subscribe((data) => {
     const player = data.sender;
@@ -133,42 +130,6 @@ function addinput(player, message, messagewordnum=1, inputtype='input') {
     if (inputtype == 'input') {
         let messagesplit = message.split(' ');
         return {'value': messagesplit[messagewordnum]};
-    }
-}
-
-function getuniversalvariable(variable) {
-    for (let i = 0; i < universalSBDvariable.length; i++) {
-        if (universalSBDvariable[i].variable == variable) {
-            return universalSBDvariable[i].value;
-        }
-    }
-    return CCERROR.NAV
-}
-
-function setuniversalvariable(variable, value) {
-    if (variable == undefined || variable == null || variable == '' || variable == ' ') {
-        console.warn(CCERROR.MISSING_VARIABLE + variable);
-        return CCERROR.MISSING_VARIABLE + variable;
-    }
-
-    if (value == undefined || value == null || value == '' || value == ' ') {
-        console.warn(CCERROR.MISSING_VARIABLE + value);
-        return CCERROR.MISSING_VARIABLE + value;
-    }
-
-    R = 0
-    for (let i = 0; i < universalSBDvariable.length; i++) {
-        if (universalSBDvariable[i].variable == variable) {
-            universalSBDvariable[i].value = value;
-            return true;
-        }
-    }
-    if (R == 0) {
-        universalSBDvariable.push({
-            variable: variable,
-            value: value
-        });
-        return true;
     }
 }
 
