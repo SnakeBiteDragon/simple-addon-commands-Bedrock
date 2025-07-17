@@ -38,7 +38,7 @@ beforeEvents.chatSend.subscribe((data) => {
         for (let i = 0; i < normalchatcommands.length; i++) {
             player.sendMessage('§6' + Uprefix + normalchatcommands[i].command + ' §7- ' + normalchatcommands[i].description);
         }
-        if (player.isOp()) {
+        if (player.playerPermissionLevel == 2 && OPchatcommands.length >= 1) {
             player.sendMessage('------------------------------------------------' + Uprefix + 'OP--------------------------------------------------');;
             for (let i = 0; i < OPchatcommands.length; i++) {
                 player.sendMessage('§6' + Uprefix + OPchatcommands[i].command + ' §7- ' + OPchatcommands[i].description);
@@ -248,7 +248,7 @@ function addcommand(commandname, commanddescription, musthaveOP = false, callbac
             const message = data.message;
             if (message.startsWith(Uprefix + commandname + ' ') || message == Uprefix + commandname) {
                 if (musthaveOP) {
-                    if (data.sender.isOp()) {
+                    if (data.sender.playerPermissionLevel == 2) {
                         data.cancel = true;
                         system.run(() => {callback(data.sender, message)});
                     }
