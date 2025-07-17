@@ -28,7 +28,7 @@ ChatCommands.addcommand('sayhi', 'Says hi to the player', false, (player, messag
 ```
 - ```getinputtypes``` Get input types returns all posible input types you can use, it has four varibles but these are not to be filled out.
 ```md
-console.warn(getinputtypes())
+console.warn(chatcommands.getinputtypes())
 /* will warn a array of all the input types */
 ```
 - ```addinput``` Add input creates a input for the command, this funtion is to be ran inside a command. its main funtion is support for player names using ```""```. it takes four varibles, player, message, messagewordnum, inputtype. PLAYER is the class of the player that run the command. MESSAGE is the message for the command. MESSAGEWORDNUM is the number of spaces before this input like 1 would be the input right after the command. INPUTTYPE is the type of input you want.
