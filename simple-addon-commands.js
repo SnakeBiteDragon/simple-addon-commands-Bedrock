@@ -28,17 +28,30 @@ let OPchatcommands = []
 beforeEvents.chatSend.subscribe((data) => {
     const player = data.sender;
     const message = data.message;
+    let dynamicvalue = undefined
     if(message.startsWith(Uprefix + 'help')) {
         data.cancel = true;
         player.sendMessage('------------------------------------------------' + Uprefix + 'help------------------------------------------------');
         player.sendMessage('Addon made by §2' + Umodauthor + ' §7| Version §6' + Umodversion + ' §7| Simple addon commands made by SnakeBDragon');
         for (let i = 0; i < normalchatcommands.length; i++) {
-            player.sendMessage('§6' + Uprefix + normalchatcommands[i].command + ' §7- ' + normalchatcommands[i].description);
+            dynamicvalue = undefined
+            if (!normalchatcommands[i].hideondynamicproperty == false) {
+                dynamicvalue = world.getDynamicProperty(normalchatcommands[i].hideondynamicproperty)
+            }
+            if (!dynamicvalue == true) {
+                player.sendMessage('§6' + Uprefix + normalchatcommands[i].command + ' §7- ' + normalchatcommands[i].description);
+            }
         }
         if (player.playerPermissionLevel == 2 && OPchatcommands.length >= 1) {
             player.sendMessage('------------------------------------------------' + Uprefix + 'OP--------------------------------------------------');;
             for (let i = 0; i < OPchatcommands.length; i++) {
-                player.sendMessage('§6' + Uprefix + OPchatcommands[i].command + ' §7- ' + OPchatcommands[i].description);
+                dynamicvalue = undefined
+                if (!OPchatcommands[i].hideondynamicproperty == false) {
+                    dynamicvalue = world.getDynamicProperty(OPchatcommands[i].hideondynamicproperty)
+                }
+                if (!dynamicvalue == true) {
+                    player.sendMessage('§6' + Uprefix + OPchatcommands[i].command + ' §7- ' + OPchatcommands[i].description);
+                }
             }
         }
     } 
@@ -180,7 +193,17 @@ function commandsetup(prefix, modversion='1.0.0', modauthor='Unknown') {
     }, 1)
 }
 
-function addcommand(commandname, commanddescription, musthaveOP = false, callback) {
+function addcommand(commandname, commanddescription, extraoptions = {musthaveop: false, hideondynamicproperty: 'str'}, callback) {
+    if (extraoptions == false) {
+        extraoptions = {musthaveop: false, hideondynamicproperty: false}
+    }
+    if (extraoptions.musthaveop == undefined) {
+        extraoptions.musthaveop = false
+    }
+    if (extraoptions.hideondynamicproperty == undefined) {
+        extraoptions.hideondynamicproperty = false
+    }
+
     system.runTimeout(() => {
         if (commandname == undefined || commandname == '' || commandname == ' ') {
             console.warn(CCERROR.MISSING_VARIABLE + 'commandname');
@@ -192,35 +215,48 @@ function addcommand(commandname, commanddescription, musthaveOP = false, callbac
             return;
         }
 
-        if (musthaveOP) {
+        if (extraoptions.musthaveop) {
             OPchatcommands.push({
                 command: commandname,
-                description: commanddescription
+                description: commanddescription,
+                hideondynamicproperty: extraoptions.hideondynamicproperty
             });
         }
         else {
             normalchatcommands.push({
                 command: commandname,
-                description: commanddescription
+                description: commanddescription,
+                hideondynamicproperty: extraoptions.hideondynamicproperty
             });
         }
 
         beforeEvents.chatSend.subscribe((data) => {
             const message = data.message;
+            let dynamicvalue = undefined
+            if (!extraoptions.hideondynamicproperty == false) {
+                dynamicvalue = world.getDynamicProperty(extraoptions.hideondynamicproperty)
+            }
+
             if (message.startsWith(Uprefix + commandname + ' ') || message == Uprefix + commandname) {
-                if (musthaveOP) {
-                    if (data.sender.playerPermissionLevel == 2) {
-                        data.cancel = true;
-                        system.run(() => {callback(data.sender, message)});
+                if (!dynamicvalue == true) {
+                    if (extraoptions.musthaveop) {
+                        if (data.sender.playerPermissionLevel == 2) {
+                            data.cancel = true;
+                            system.run(() => {callback(data.sender, message)});
+                        }
+                        else {
+                            data.cancel = true;
+                            data.sender.sendMessage('§cYou need to be OP to use this command');
+                        }
                     }
                     else {
                         data.cancel = true;
-                        data.sender.sendMessage('§cYou need to be OP to use this command');
+                        system.run(() => {callback(data.sender, message)});
                     }
                 }
                 else {
                     data.cancel = true;
-                    system.run(() => {callback(data.sender, message)});
+                    data.sender.sendMessage('§cThis command has been disabled');
                 }
             }
         });
