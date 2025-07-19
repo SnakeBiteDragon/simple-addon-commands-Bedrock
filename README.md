@@ -3,8 +3,8 @@ A simple .js file to make it easier to create custom commands for Minecraft bedr
 
 ## PLEASE NOTE: 
 - This file will have to be copyed into the scripts folder in your Minecraft Bedrock addon to work.
-- There is currently NO npm for this project. 
-- This project currently only works for the 2.0.0-beta version of the ```@minecraft/server```
+- There is currently NO npm for this project although i do planed to add it later. 
+- This project currently only works for the 2.1.0-beta version of the ```@minecraft/server```
 - This is project may be slow to update or fix problems
 
 ## This is a project made to make it easier for people to make custom commands for Mincraft Bedrock Addons
@@ -19,12 +19,16 @@ A simple .js file to make it easier to create custom commands for Minecraft bedr
 ```md
 ChatCommands.commandsetup('mc:', '1.0.0', 'SnakeBDragon');
 ```
-- ```addcommand``` Add command is how you setup your commands, it takes three varibles, commandname, commanddescription, musthaveOP. COMMANDNAME will be the name of your command that will come after the prefix. COMMANDDESCRIPTION is the description that will show in the help menu. MUSTHAVEop is either true or false, this defines if the player must have op or not to use this command.
+- ```addcommand``` Add command is how you setup your commands, it takes three varibles, commandname, commanddescription, extraoptions. COMMANDNAME will be the name of your command that will come after the prefix. COMMANDDESCRIPTION is the description that will show in the help menu.
 ```md
 ChatCommands.addcommand('sayhi', 'Says hi to the player', false, (player, message) => {
     /*The code in this function will run when the command is used*/
     player.sendMessage('Hi ' + player.name + '!');
 });
+```
+EXTRAOPTIONS can be just set to false if no extra options are wanted but if they are use {} and the two options to use inside are musthaveop and hideondynamicproperty. musthaveop can be set to true or false when true to run the command you must have full op. hideondynamicproperty can be set to false or the str of the name of the world dynamic property you want to use, if that dynamicproperty dosent == true then you can use the command and it will show in the help menu but if that dynamicproperty dose == true then you will not be able to run the command even if your op and it will not show in the help menu. You can define one if you want e.g. ```{musthaveop: true}```
+```md
+ChatCommands.addcommand('sayhi', 'Says hi to the player', {musthaveop: true, hideondynamicproperty: 'mydynamicproperty'}, (player, message) => {}
 ```
 - ```getinputtypes``` Get input types returns all posible input types you can use, it has four varibles but these are not to be filled out.
 ```md
